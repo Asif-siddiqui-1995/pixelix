@@ -14,14 +14,25 @@
         margin: 0;
     }
 
+    /* Lock the page to A4 width. "clip" (unlike "hidden") also removes any
+       overflow from the layout, so nothing wider can make Chrome shrink the
+       printout. */
     html,
     body {
+        width: 210mm !important;
+        min-width: 0 !important;
+        max-width: 210mm !important;
+        min-height: 0 !important;
         background: #fff !important;
         padding: 0 !important;
         margin: 0 !important;
+        overflow: clip !important;
     }
 
-    body > *:not(.px-quote-print) {
+    /* Hide everything else, including elements that browser extensions or
+       browser UI inject directly under <html> instead of <body> */
+    body > *:not(.px-quote-print),
+    html > *:not(head):not(body) {
         display: none !important;
     }
 

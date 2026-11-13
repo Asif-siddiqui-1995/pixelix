@@ -85,6 +85,103 @@ function threeDigits(n) {
         .join(" ");
 }
 
+/* ---------- Printing ---------- */
+
+/**
+ * Prints the estimate from an isolated, hidden iframe that contains nothing
+ * but the A4 document and the page's stylesheets.
+ *
+ * Printing the main page directly let anything else in it (browser
+ * extensions, Chrome's Gemini UI and the like inject elements into every
+ * page) widen the print layout, and Chrome then shrank the whole estimate to
+ * a corner of the sheet. Inside its own frame the document is exactly A4.
+ * The iframe's <title> becomes the suggested PDF file name.
+ */
+export function printEstimate(fileName) {
+    const source = document.querySelector(".px-quote-print .px-quote");
+    if (!source) {
+        window.print();
+        return;
+    }
+
+    const frame = document.createElement("iframe");
+    frame.setAttribute("aria-hidden", "true");
+    frame.tabIndex = -1;
+    // Off-screen but laid out at A4 width
+    Object.assign(frame.style, {
+        position: "fixed",
+        left: "-10000px",
+        top: "0",
+        width: "210mm",
+        height: "297mm",
+        border: "0",
+        visibility: "hidden",
+    });
+    document.body.appendChild(frame);
+
+    const doc = frame.contentDocument;
+    const styles = [...document.querySelectorAll('style, link[rel="stylesheet"]')]
+        .map((node) => node.outerHTML)
+        .join("\n");
+
+    doc.open();
+    doc.write(`<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${fileName}</title>
+<base href="${document.baseURI}">
+${styles}
+<style>
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0 !important; padding: 0 !important; width: 210mm !important;
+               min-height: 0 !important; background: #fff !important; overflow: visible !important; }
+  body::before, body::after { content: none !important; }
+  .px-quote-print { display: block !important; }
+</style>
+</head>
+<body><div class="px-quote-print">${source.outerHTML}</div></body>
+</html>`);
+    doc.close();
+
+    const win = frame.contentWindow;
+    let printed = false;
+    const cleanup = () => setTimeout(() => frame.remove(), 500);
+
+    const run = async () => {
+        if (printed) return;
+        printed = true;
+        // Wait for stylesheets and web fonts so the PDF matches the design
+        await Promise.all(
+            [...doc.querySelectorAll('link[rel="stylesheet"]')].map(
+                (link) =>
+                    link.sheet
+                        ? null
+                        : new Promise((resolve) => {
+                              link.addEventListener("load", resolve, {once: true});
+                              link.addEventListener("error", resolve, {once: true});
+                              setTimeout(resolve, 3000);
+                          }),
+            ),
+        );
+        try {
+            await doc.fonts?.ready;
+        } catch {
+            /* fonts not critical */
+        }
+        win.addEventListener("afterprint", cleanup, {once: true});
+        win.focus();
+        win.print();
+        // Some browsers block in print(); others don't fire afterprint
+        setTimeout(cleanup, 60000);
+    };
+
+    if (doc.readyState === "complete") run();
+    else frame.addEventListener("load", run, {once: true});
+    // Safety net if "load" never fires for a document.write() frame
+    setTimeout(run, 1500);
+}
+
 export function amountInWords(value) {
     let n = Math.round(Math.max(0, value));
     if (n === 0) return "Rupees Zero only";

@@ -34,7 +34,7 @@ import {
     ArrowRight,
     Check,
 } from "lucide-react";
-import EstimateDocument from "./EstimateDocument.jsx";
+import EstimateDocument, {printEstimate} from "./EstimateDocument.jsx";
 import {whatsappLink} from "../utils/format.js";
 
 const QUOTE_EMAIL = "pixelix7@gmail.com";
@@ -465,18 +465,9 @@ export default function ConstructionCostCalculator({
         setQuoteNumber(number);
         setIssuedAt(new Date());
 
-        const previousTitle = document.title;
-        const restoreTitle = () => {
-            document.title = previousTitle;
-            window.removeEventListener("afterprint", restoreTitle);
-        };
-        window.addEventListener("afterprint", restoreTitle);
-
-        // Let React render the new number before the print dialog opens
-        setTimeout(() => {
-            document.title = `Pixelix-Estimate-${number}`;
-            window.print();
-        }, 50);
+        // Let React render the new number, then print the A4 document from
+        // an isolated frame (see printEstimate in EstimateDocument.jsx)
+        setTimeout(() => printEstimate(`Pixelix-Estimate-${number}`), 50);
     };
 
     const categories = [
