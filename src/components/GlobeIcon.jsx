@@ -337,28 +337,42 @@ export default function GlobeIcon({className = "", speed = 0.00028}) {
         }
 
         let raf = 0;
-        let visible = true;
-        let last = performance.now();
+        let last = 0;
         let rot = Math.random() * Math.PI * 2;
+        draw(rot);
 
         const tick = (now) => {
-            if (visible) {
-                rot += (now - last) * speed;
-                draw(rot);
-            }
+            rot += (now - last) * speed;
             last = now;
+            draw(rot);
             raf = requestAnimationFrame(tick);
         };
-        raf = requestAnimationFrame(tick);
 
+        // Only run the frame loop while the globe is on screen; a loop that
+        // merely skips drawing still wakes the page up 60 times a second.
+        const start = () => {
+            if (raf) return;
+            last = performance.now();
+            raf = requestAnimationFrame(tick);
+        };
+        const stop = () => {
+            cancelAnimationFrame(raf);
+            raf = 0;
+        };
+
+        let inView = false;
+        const sync = () => (inView && !document.hidden ? start() : stop());
         const io = new IntersectionObserver(([e]) => {
-            visible = e.isIntersecting;
+            inView = e.isIntersecting;
+            sync();
         });
         io.observe(canvas);
+        document.addEventListener("visibilitychange", sync);
 
         return () => {
-            cancelAnimationFrame(raf);
+            stop();
             io.disconnect();
+            document.removeEventListener("visibilitychange", sync);
         };
     }, [speed]);
 

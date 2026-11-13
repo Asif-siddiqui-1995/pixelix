@@ -7,6 +7,7 @@ import PhoneIcon from "./PhoneIcon.jsx";
 import {coreServices, moreServices} from "../data/site.js";
 import BotIcon from "./Boticon.jsx";
 import ChipsIcon from "./Chipicon.jsx";
+import usePauseOffscreen from "../utils/usePauseOffscreen.js";
 
 const icons = {
     app: PhoneIcon,
@@ -15,6 +16,9 @@ const icons = {
 };
 
 export default function Services() {
+    // The four animated icons (globe, phone, bot, chip) only run while visible
+    const iconsRef = usePauseOffscreen();
+
     return (
         <>
         <section id="services" className="px-home-dark">
@@ -89,7 +93,7 @@ export default function Services() {
                 </Link>
             </div>
 
-            <div className="grid4">
+            <div className="grid4" ref={iconsRef}>
                 {moreServices.map((s) => {
                     const Icon = icons[s.id] || GlobeIcon;
                     return (

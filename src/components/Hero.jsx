@@ -4,10 +4,10 @@ import Scene from "./Scene.jsx";
 import {whatsappLink} from "../utils/format.js";
 import "../styles/home.css";
 
-import amazon from "../assets/logos/amazon.png";
-import flipkart from "../assets/logos/flipkart.png";
-import meesho from "../assets/logos/meesho.png";
-import shopify from "../assets/logos/shopify.png";
+import amazon from "../assets/logos/amazon.webp";
+import flipkart from "../assets/logos/flipkart.webp";
+import meesho from "../assets/logos/meesho.webp";
+import shopify from "../assets/logos/shopify.webp";
 
 // width and height are the real image sizes, so the page does not jump while loading
 const marketplaces = [

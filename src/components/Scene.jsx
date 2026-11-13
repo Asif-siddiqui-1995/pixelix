@@ -138,17 +138,124 @@ const orbitConfig = [
     {rx: 330, ry: 125, angle: -43, duration: "25s", reverse: true},
 ];
 
-function Orbit({orbit, index}) {
-    const path = `M ${350 - orbit.rx} 350 A ${orbit.rx} ${orbit.ry} 0 1 0 ${350 + orbit.rx} 350 A ${orbit.rx} ${orbit.ry} 0 1 0 ${350 - orbit.rx} 350`;
+const orbitPath = (orbit) =>
+    `M ${350 - orbit.rx} 350 A ${orbit.rx} ${orbit.ry} 0 1 0 ${350 + orbit.rx} 350 A ${orbit.rx} ${orbit.ry} 0 1 0 ${350 - orbit.rx} 350`;
 
+/*
+ * PERFORMANCE NOTE
+ * The scene used to be one 700×700 SVG. Any moving part (a spinning ring, a
+ * floating icon, an orbit dash) forced the browser to repaint the WHOLE SVG,
+ * with its ~720 nodes and glow filters, every frame — ~100% CPU on phones.
+ *
+ * It is now a stack of SVG layers, in the original paint order:
+ *   static artwork  → painted once, never repainted
+ *   spinning rings, brain, icon nodes → each its own layer, animated with CSS
+ *                     transform/opacity on the layer itself, which the GPU
+ *                     composites without repainting anything
+ *   orbits          → the only layer that still repaints (dash + particles)
+ * Gradient / filter <defs> live in the first layer; url(#id) references
+ * resolve document-wide, so every layer can use them.
+ */
+
+const VIEW = 700;
+const NODE_HALF = 90; // icon node radius 43 + room for its glow
+const pct = (units) => `${(units / VIEW) * 100}%`;
+
+// Full-size layer sharing the original 0 0 700 700 coordinate system.
+// Motion is applied to the wrapping <div>, not the <svg>: Chrome promotes an
+// animated div to its own GPU layer, but repaints an animated outer <svg>.
+function Layer({className = "", children}) {
+    return (
+        <div className={`scene-layer ${className}`}>
+            <svg
+                viewBox="0 0 700 700"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+            >
+                {children}
+            </svg>
+        </div>
+    );
+}
+
+// Small layer covering only the square region (cx, cy) ± half of the scene.
+// With `fill`, it fills a wrapper that is already positioned instead.
+function Patch({cx, cy, half, fill = false, className = "", style, children}) {
+    const position = fill
+        ? {}
+        : {left: pct(cx - half), top: pct(cy - half), width: pct(half * 2)};
+    return (
+        <div className={`scene-patch ${className}`} style={{...position, ...style}}>
+            <svg
+                viewBox={`${cx - half} ${cy - half} ${half * 2} ${half * 2}`}
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+            >
+                {children}
+            </svg>
+        </div>
+    );
+}
+
+function HudTicksAndDots() {
+    const ticks = Array.from({length: 120}, (_, i) => {
+        const angle = (i * 360) / 120;
+        const major = i % 5 === 0;
+
+        return (
+            <line
+                key={i}
+                x1="350"
+                y1={major ? "43" : "48"}
+                x2="350"
+                y2={major ? "66" : "58"}
+                transform={`rotate(${angle} 350 350)`}
+                stroke={major ? "#ffad65" : "#d97538"}
+                strokeWidth={major ? "2" : "1"}
+                opacity={major ? ".9" : ".42"}
+            />
+        );
+    });
+
+    const dots = Array.from({length: 72}, (_, i) => {
+        const angle = (i * TAU) / 72;
+        const radius = 284;
+        return (
+            <circle
+                key={i}
+                cx={350 + Math.cos(angle) * radius}
+                cy={350 + Math.sin(angle) * radius}
+                r={i % 6 === 0 ? 2.2 : 1}
+                fill="#ffb36d"
+                opacity={i % 6 === 0 ? ".9" : ".45"}
+            />
+        );
+    });
+
+    return (
+        <>
+            <g>{ticks}</g>
+            <g>{dots}</g>
+        </>
+    );
+}
+
+function OrbitLine({orbit, index}) {
     return (
         <g transform={`rotate(${orbit.angle} 350 350)`}>
             <path
-                d={path}
+                d={orbitPath(orbit)}
                 className={`orbit-line orbit-line-${index + 1}`}
                 fill="none"
             />
+        </g>
+    );
+}
 
+function OrbitMotion({orbit, index}) {
+    const path = orbitPath(orbit);
+    return (
+        <g transform={`rotate(${orbit.angle} 350 350)`}>
             <path
                 d={path}
                 className="orbit-highlight"
@@ -188,56 +295,6 @@ function Orbit({orbit, index}) {
     );
 }
 
-function HudBackground() {
-    const ticks = Array.from({length: 120}, (_, i) => {
-        const angle = (i * 360) / 120;
-        const major = i % 5 === 0;
-
-        return (
-            <line
-                key={i}
-                x1="350"
-                y1={major ? "43" : "48"}
-                x2="350"
-                y2={major ? "66" : "58"}
-                transform={`rotate(${angle} 350 350)`}
-                stroke={major ? "#ffad65" : "#d97538"}
-                strokeWidth={major ? "2" : "1"}
-                opacity={major ? ".9" : ".42"}
-            />
-        );
-    });
-
-    const dots = Array.from({length: 72}, (_, i) => {
-        const angle = (i * TAU) / 72;
-        const radius = 284;
-        return (
-            <circle
-                key={i}
-                cx={350 + Math.cos(angle) * radius}
-                cy={350 + Math.sin(angle) * radius}
-                r={i % 6 === 0 ? 2.2 : 1}
-                fill="#ffb36d"
-                opacity={i % 6 === 0 ? ".9" : ".45"}
-            />
-        );
-    });
-
-    return (
-        <g className="hud-background">
-            <circle cx="350" cy="350" r="304" className="hud-outer" />
-            <circle cx="350" cy="350" r="292" className="hud-dotted" />
-            <circle cx="350" cy="350" r="264" className="hud-inner" />
-            <circle cx="350" cy="350" r="235" className="hud-secondary" />
-            <circle cx="350" cy="350" r="210" className="hud-inner-dashed" />
-            <circle cx="350" cy="350" r="177" className="hud-core-ring" />
-
-            <g>{ticks}</g>
-            <g>{dots}</g>
-        </g>
-    );
-}
-
 function CentralBrain() {
     return (
         <g transform="translate(350 350)" className="central-brain">
@@ -267,18 +324,15 @@ function CentralBrain() {
                 preserveAspectRatio="xMidYMid meet"
                 className="brain-artwork"
             />
-
-            {/* Outer rotating ring */}
-            <circle cx="0" cy="0" r="112" className="brain-ring" />
         </g>
     );
 }
+
 function IconNode({item}) {
     return (
         <g
             transform={`translate(${item.x} ${item.y}) scale(${item.scale || 1})`}
             className="icon-node"
-            style={{"--node-delay": item.delay}}
         >
             <circle r="43" className="node-shadow" />
             <circle r="39" className="node-outer" />
@@ -297,15 +351,16 @@ export default function Scene() {
 
     useEffect(() => {
         const scene = sceneRef.current;
-        const svg = scene?.querySelector("svg");
-        if (!scene || !svg) return;
+        const svgs = scene ? [...scene.querySelectorAll("svg")] : [];
+        if (!scene || !svgs.length) return;
 
         let visible = false;
         const sync = () => {
             const shouldRun = visible && !document.hidden;
             scene.classList.toggle("is-active", shouldRun);
-            if (shouldRun) svg.unpauseAnimations?.();
-            else svg.pauseAnimations?.();
+            svgs.forEach((svg) =>
+                shouldRun ? svg.unpauseAnimations?.() : svg.pauseAnimations?.(),
+            );
         };
 
         const observer = new IntersectionObserver(
@@ -322,7 +377,7 @@ export default function Scene() {
         return () => {
             observer.disconnect();
             document.removeEventListener("visibilitychange", sync);
-            svg.pauseAnimations?.();
+            svgs.forEach((svg) => svg.pauseAnimations?.());
         };
     }, []);
 
@@ -331,137 +386,244 @@ export default function Scene() {
             <div ref={sceneRef} className="commerce-scene">
                 <div className="ambient-glow" />
 
-                <svg
-                    className="commerce-svg"
-                    viewBox="0 0 700 700"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <defs>
-                        <linearGradient
-                            id="brainBrownGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                        >
-                            <stop offset="0%" stopColor="#754027" />
-                            <stop offset="45%" stopColor="#452315" />
-                            <stop offset="100%" stopColor="#21100b" />
-                        </linearGradient>
-                        <radialGradient id="centerGlow">
-                            <stop
-                                offset="0%"
-                                stopColor="#ffb36d"
-                                stopOpacity=".55"
+                <div className="commerce-stage">
+                    {/* 1 · static: background glow + outer HUD ring */}
+                    <Layer>
+                        <defs>
+                            <linearGradient
+                                id="brainBrownGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="100%"
+                            >
+                                <stop offset="0%" stopColor="#754027" />
+                                <stop offset="45%" stopColor="#452315" />
+                                <stop offset="100%" stopColor="#21100b" />
+                            </linearGradient>
+                            <radialGradient id="centerGlow">
+                                <stop
+                                    offset="0%"
+                                    stopColor="#ffb36d"
+                                    stopOpacity=".55"
+                                />
+                                <stop
+                                    offset="65%"
+                                    stopColor="#d75c25"
+                                    stopOpacity=".2"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#351409"
+                                    stopOpacity="0"
+                                />
+                            </radialGradient>
+
+                            <radialGradient id="cartFace" cx="35%" cy="25%">
+                                <stop offset="0%" stopColor="#9e461d" />
+                                <stop offset="55%" stopColor="#4b1e0e" />
+                                <stop offset="100%" stopColor="#1f100a" />
+                            </radialGradient>
+
+                            <linearGradient
+                                id="cartMetal"
+                                x1="0"
+                                y1="0"
+                                x2="1"
+                                y2="1"
+                            >
+                                <stop offset="0%" stopColor="#fff1c9" />
+                                <stop offset="45%" stopColor="#ffad60" />
+                                <stop offset="100%" stopColor="#e45b1e" />
+                            </linearGradient>
+
+                            <linearGradient
+                                id="basketGradient"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop offset="0%" stopColor="#ffbd76" />
+                                <stop offset="100%" stopColor="#e66c2e" />
+                            </linearGradient>
+
+                            <radialGradient id="nodeGradient" cx="30%" cy="25%">
+                                <stop offset="0%" stopColor="#a95426" />
+                                <stop offset="100%" stopColor="#25110b" />
+                            </radialGradient>
+
+                            <filter
+                                id="orangeGlow"
+                                x="-100%"
+                                y="-100%"
+                                width="300%"
+                                height="300%"
+                            >
+                                <feGaussianBlur stdDeviation="5" result="blur" />
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="blur"
+                                    operator="over"
+                                />
+                            </filter>
+
+                            <filter
+                                id="strongGlow"
+                                x="-100%"
+                                y="-100%"
+                                width="300%"
+                                height="300%"
+                            >
+                                <feGaussianBlur stdDeviation="12" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+
+                            <filter
+                                id="softGlow"
+                                x="-100%"
+                                y="-100%"
+                                width="300%"
+                                height="300%"
+                            >
+                                <feGaussianBlur stdDeviation="25" />
+                            </filter>
+                        </defs>
+
+                        <circle
+                            cx="350"
+                            cy="350"
+                            r="310"
+                            fill="url(#centerGlow)"
+                        />
+                        <g className="hud-background">
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="304"
+                                className="hud-outer"
                             />
-                            <stop
-                                offset="65%"
-                                stopColor="#d75c25"
-                                stopOpacity=".2"
+                        </g>
+                    </Layer>
+
+                    {/* 2 · spinning dotted ring */}
+                    <Layer className="scene-spin-dotted">
+                        <g className="hud-background">
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="292"
+                                className="hud-dotted"
                             />
-                            <stop
-                                offset="100%"
-                                stopColor="#351409"
-                                stopOpacity="0"
+                        </g>
+                    </Layer>
+
+                    {/* 3 · static inner ring */}
+                    <Layer>
+                        <g className="hud-background">
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="264"
+                                className="hud-inner"
                             />
-                        </radialGradient>
+                        </g>
+                    </Layer>
 
-                        <radialGradient id="cartFace" cx="35%" cy="25%">
-                            <stop offset="0%" stopColor="#9e461d" />
-                            <stop offset="55%" stopColor="#4b1e0e" />
-                            <stop offset="100%" stopColor="#1f100a" />
-                        </radialGradient>
-
-                        <linearGradient
-                            id="cartMetal"
-                            x1="0"
-                            y1="0"
-                            x2="1"
-                            y2="1"
-                        >
-                            <stop offset="0%" stopColor="#fff1c9" />
-                            <stop offset="45%" stopColor="#ffad60" />
-                            <stop offset="100%" stopColor="#e45b1e" />
-                        </linearGradient>
-
-                        <linearGradient
-                            id="basketGradient"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                        >
-                            <stop offset="0%" stopColor="#ffbd76" />
-                            <stop offset="100%" stopColor="#e66c2e" />
-                        </linearGradient>
-
-                        <radialGradient id="nodeGradient" cx="30%" cy="25%">
-                            <stop offset="0%" stopColor="#a95426" />
-                            <stop offset="100%" stopColor="#25110b" />
-                        </radialGradient>
-
-                        <filter
-                            id="orangeGlow"
-                            x="-100%"
-                            y="-100%"
-                            width="300%"
-                            height="300%"
-                        >
-                            <feGaussianBlur stdDeviation="5" result="blur" />
-                            <feComposite
-                                in="SourceGraphic"
-                                in2="blur"
-                                operator="over"
+                    {/* 4 · counter-spinning ring */}
+                    <Layer className="scene-spin-secondary">
+                        <g className="hud-background">
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="235"
+                                className="hud-secondary"
                             />
-                        </filter>
+                        </g>
+                    </Layer>
 
-                        <filter
-                            id="strongGlow"
-                            x="-100%"
-                            y="-100%"
-                            width="300%"
-                            height="300%"
+                    {/* 5 · static: remaining rings, ticks, dots, orbit paths */}
+                    <Layer>
+                        <g className="hud-background">
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="210"
+                                className="hud-inner-dashed"
+                            />
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="177"
+                                className="hud-core-ring"
+                            />
+                            <HudTicksAndDots />
+                        </g>
+                        <g className="orbit-group">
+                            {orbitConfig.map((orbit, index) => (
+                                <OrbitLine
+                                    key={index}
+                                    orbit={orbit}
+                                    index={index}
+                                />
+                            ))}
+                        </g>
+                    </Layer>
+
+                    {/* 6 · orbit highlights + travelling particles (repaints) */}
+                    <Layer>
+                        <g className="orbit-group">
+                            {orbitConfig.map((orbit, index) => (
+                                <OrbitMotion
+                                    key={index}
+                                    orbit={orbit}
+                                    index={index}
+                                />
+                            ))}
+                        </g>
+                    </Layer>
+
+                    {/* 7 · brain (pulses) with its rotating ring */}
+                    <div
+                        className="scene-brain"
+                        style={{left: pct(210), top: pct(210), width: pct(280)}}
+                    >
+                        <Patch cx={350} cy={350} half={140} fill className="scene-fill">
+                            <CentralBrain />
+                        </Patch>
+                        <Patch
+                            cx={350}
+                            cy={350}
+                            half={140}
+                            fill
+                            className="scene-fill scene-spin-brain"
                         >
-                            <feGaussianBlur stdDeviation="12" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
+                            <circle
+                                cx="350"
+                                cy="350"
+                                r="112"
+                                className="brain-ring"
+                            />
+                        </Patch>
+                    </div>
 
-                        <filter
-                            id="softGlow"
-                            x="-100%"
-                            y="-100%"
-                            width="300%"
-                            height="300%"
+                    {/* 8 · icon nodes, each floating on its own layer */}
+                    {iconNodes.map((item) => (
+                        <Patch
+                            key={item.type}
+                            cx={item.x}
+                            cy={item.y}
+                            half={NODE_HALF}
+                            className="scene-node"
+                            style={{"--node-delay": item.delay}}
                         >
-                            <feGaussianBlur stdDeviation="25" />
-                        </filter>
-                    </defs>
-
-                    <circle cx="350" cy="350" r="310" fill="url(#centerGlow)" />
-
-                    <HudBackground />
-
-                    {/* Orbital paths behind the icon nodes */}
-                    <g className="orbit-group">
-                        {orbitConfig.map((orbit, index) => (
-                            <Orbit key={index} orbit={orbit} index={index} />
-                        ))}
-                    </g>
-
-                    {/* Central glowing shopping cart */}
-                    {/* <CentralCart /> */}
-                    <CentralBrain />
-
-                    {/* Six surrounding icon circles */}
-                    <g className="nodes-group">
-                        {iconNodes.map((item) => (
-                            <IconNode key={item.type} item={item} />
-                        ))}
-                    </g>
-                </svg>
+                            <IconNode item={item} />
+                        </Patch>
+                    ))}
+                </div>
 
                 <div className="floating-data orders-data">
                     <span className="data-arrow">↗</span>

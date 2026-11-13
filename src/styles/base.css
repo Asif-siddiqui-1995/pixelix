@@ -857,3 +857,18 @@ main#top section[class*="px-"] {
     content-visibility: visible;
     contain-intrinsic-size: none;
 }
+
+/* Set by usePauseOffscreen() while an animated block is out of view.
+   Animations are removed rather than paused: paused animations inside SVGs
+   still cost per-frame work in Chrome. They restart when back in view. */
+.px-anim-paused *,
+.px-anim-paused *::before,
+.px-anim-paused *::after {
+    animation: none !important;
+}
+
+/* Placeholder while a lazily-loaded page chunk downloads (keeps the footer
+   from jumping up under the navbar) */
+.px-route-loading {
+    min-height: 100vh;
+}

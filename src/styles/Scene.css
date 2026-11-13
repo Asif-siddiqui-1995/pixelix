@@ -39,15 +39,71 @@
     animation: ambientPulse 5s ease-in-out infinite;
 }
 
-.commerce-svg {
+/* The stage carries the tilt + float that used to sit on the single SVG.
+   Its children are stacked SVG layers (see Scene.jsx performance note). */
+.commerce-stage {
     position: relative;
     z-index: 2;
     width: 100%;
     height: 100%;
-    overflow: visible;
-    transform-style: preserve-3d;
     transform: rotateX(8deg) rotateY(-8deg);
     animation: hologramFloat 8s ease-in-out infinite;
+}
+
+.scene-layer {
+    position: absolute;
+    inset: 0;
+}
+
+.scene-patch {
+    position: absolute;
+    aspect-ratio: 1;
+}
+
+.scene-layer > svg,
+.scene-patch > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Animated wrappers get their own GPU layer up front */
+.scene-spin-dotted,
+.scene-spin-secondary,
+.scene-spin-brain,
+.scene-brain,
+.scene-node {
+    will-change: transform;
+}
+
+/* Patches that fill their wrapper (brain + its ring) */
+.scene-brain {
+    position: absolute;
+    aspect-ratio: 1;
+    animation: brainPulse 4s ease-in-out infinite;
+}
+
+.scene-brain .scene-fill {
+    inset: 0;
+}
+
+/* Spinning layers: rotating the whole layer is GPU-composited */
+.scene-spin-dotted {
+    animation: hudSpin 70s linear infinite;
+}
+
+.scene-spin-secondary {
+    animation: hudSpin 50s linear infinite reverse;
+}
+
+.scene-spin-brain {
+    animation: brainRotate 22s linear infinite;
+}
+
+.scene-node {
+    animation: sceneNodeFloat 5s ease-in-out infinite;
+    animation-delay: var(--node-delay);
 }
 
 /* HUD CIRCLES */
@@ -67,7 +123,6 @@
     stroke: rgba(255, 186, 116, 0.5);
     stroke-width: 1;
     stroke-dasharray: 2 5;
-    animation: hudSpin 70s linear infinite;
 }
 
 .hud-inner {
@@ -80,7 +135,6 @@
     stroke: rgba(255, 180, 110, 0.5);
     stroke-width: 1.5;
     stroke-dasharray: 1 5;
-    animation: hudSpin 50s linear infinite reverse;
 }
 
 .hud-inner-dashed {
@@ -204,11 +258,6 @@
 }
 
 /* ICON NODES */
-
-.icon-node {
-    animation: nodeFloat 5s ease-in-out infinite;
-    animation-delay: var(--node-delay);
-}
 
 .node-shadow {
     fill: #ff8c3f;
@@ -348,13 +397,14 @@
     }
 }
 
-@keyframes nodeFloat {
+/* 7 SVG units of float, expressed against the 180-unit node layer */
+@keyframes sceneNodeFloat {
     0%,
     100% {
-        translate: 0 0;
+        transform: translateY(0);
     }
     50% {
-        translate: 0 -7px;
+        transform: translateY(-3.8889%);
     }
 }
 
@@ -381,9 +431,12 @@
         overflow: hidden;
     }
 
-    .commerce-svg {
+    /* Slightly oversized on phones, as the original single SVG was */
+    .commerce-stage {
         width: 108%;
         max-width: none;
+        height: auto;
+        aspect-ratio: 1;
     }
 
     .floating-data {
@@ -422,7 +475,6 @@
 .central-brain {
     transform-box: fill-box;
     transform-origin: center;
-    animation: brainPulse 4s ease-in-out infinite;
 }
 
 .brain-artwork {
@@ -444,8 +496,6 @@
 
     transform-box: fill-box;
     transform-origin: center;
-
-    animation: brainRotate 22s linear infinite;
 }
 
 /* Subtle pulse without moving the brain */
@@ -487,14 +537,17 @@
     stroke-width: 1.5;
 }
 
-/* Keep the decorative scene idle until it is close to the viewport. */
+/* Keep the decorative scene idle until it is close to the viewport.
+   Animations are removed (not just paused): Chrome still does per-frame work
+   for paused animations on this large SVG whenever anything else on the page
+   animates, which kept phones ~70% busy even with the hero scrolled away. */
 .commerce-scene:not(.is-active) *,
 .commerce-scene:not(.is-active) *::before,
 .commerce-scene:not(.is-active) *::after {
-    animation-play-state: paused !important;
+    animation: none !important;
 }
 
-.commerce-scene.is-active .commerce-svg,
+.commerce-scene.is-active .commerce-stage,
 .commerce-scene.is-active .ambient-glow,
 .commerce-scene.is-active .floating-data {
     animation-play-state: running;
