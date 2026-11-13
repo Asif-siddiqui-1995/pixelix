@@ -1,0 +1,109 @@
+.tagline {
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    opacity: 0.8;
+}
+.sub {
+    margin: -0.8rem 0 1.8rem;
+    /* max-width: 56ch; */
+}
+.chips.plain {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.4rem;
+}
+.hero .chips.plain li {
+    background: rgba(29, 21, 18, 0.08);
+    border: 1px solid rgba(143, 63, 33, 0.25);
+}
+.stats-wrap {
+    padding-top: 0;
+}
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+.stats dt {
+    font-family: "Bricolage Grotesque";
+    font-size: 2rem;
+    font-weight: 800;
+}
+.stats dd {
+    margin: 0;
+    opacity: 0.75;
+    font-size: 0.9rem;
+}
+.feature {
+    padding: 1.4rem;
+    border-radius: 18px;
+    background: rgba(255, 248, 238, 0.6);
+    border: 1px solid rgba(143, 63, 33, 0.22);
+}
+.feature .px {
+    margin-bottom: 1.1rem;
+}
+.feature h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+.contact h2 {
+    /* max-width: 16ch; */
+    text-align: left;
+    justify-self: start;
+}
+.foot {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 2rem;
+    border-top: 1px solid rgba(143, 63, 33, 0.3);
+    margin-top: 2rem;
+}
+.foot h4 {
+    margin-bottom: 0.6rem;
+}
+.foot ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+}
+.foot a {
+    text-decoration: none;
+}
+.foot a:hover {
+    text-decoration: underline;
+}
+.foot p {
+    max-width: 30ch;
+    margin-top: 0.6rem;
+}
+.foot .copy {
+    grid-column: 1/-1;
+    max-width: none;
+    opacity: 0.7;
+}
+@media (max-width: 860px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .foot {
+        grid-template-columns: 1fr 1fr;
+    }
+    .nav nav a {
+        display: none;
+    }
+    .nav nav a:last-child {
+        display: inline;
+    }
+}
+
+
+/* Background rendering fix */
+main,
+section,
+footer {
+    background: transparent;
+}

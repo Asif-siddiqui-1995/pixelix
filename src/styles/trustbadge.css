@@ -1,0 +1,23 @@
+/* Footer stamps: append to your main stylesheet */
+
+.foot-stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    margin-top: 0.9rem;
+}
+
+.foot-stamps img {
+    display: block;
+
+    width: 84px;
+    height: 84px;
+}
+
+@media (max-width: 600px) {
+    .foot-stamps img {
+        width: 72px;
+        height: 72px;
+    }
+}

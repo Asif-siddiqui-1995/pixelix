@@ -1,0 +1,394 @@
+/* ==========================================
+   PRINTABLE ESTIMATE · MINIMAL LETTERHEAD
+   Hidden on screen; the only thing printed when
+   the calculator's "Download PDF" is used.
+========================================== */
+
+.px-quote-print {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html,
+    body {
+        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    body > *:not(.px-quote-print) {
+        display: none !important;
+    }
+
+    .px-quote-print {
+        display: block;
+    }
+}
+
+.px-quote {
+    --q-ink: #1d1512;
+    --q-terra: #c4623a;
+    --q-cream: #fbf1e3;
+    --q-muted: #806b5e;
+    --q-line: #ead8c6;
+
+    position: relative;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 16mm 17mm 22mm;
+    display: flex;
+    flex-direction: column;
+    color: var(--q-ink);
+    background: #fff;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.px-quote b,
+.px-quote strong,
+.px-quote h2 {
+    font-family: "Bricolage Grotesque", sans-serif;
+}
+
+/* ---------- Letterhead ---------- */
+
+.px-quote-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 3px solid var(--q-ink);
+}
+
+.px-quote-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.px-quote-mark {
+    position: relative;
+    width: 34px;
+    height: 34px;
+}
+
+.px-quote-mark i {
+    position: absolute;
+    border-radius: 3px;
+}
+
+.px-quote-mark i:nth-child(1) {
+    left: 0;
+    top: 6px;
+    width: 14px;
+    height: 28px;
+    background: var(--q-ink);
+}
+
+.px-quote-mark i:nth-child(2) {
+    left: 14px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    background: var(--q-terra);
+}
+
+.px-quote-mark i:nth-child(3) {
+    left: 20px;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    background: #f1c9a5;
+}
+
+.px-quote-logo strong {
+    display: block;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.px-quote-logo small {
+    display: block;
+    color: var(--q-muted);
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+.px-quote-contact {
+    color: var(--q-muted);
+    font-size: 10px;
+    line-height: 1.6;
+    text-align: right;
+}
+
+/* ---------- Title + ids ---------- */
+
+.px-quote-titlebar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 24px 0 18px;
+}
+
+.px-quote-titlebar h2 {
+    margin: 0;
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 0.98;
+    text-align: left;
+}
+
+.px-quote-titlebar h2 span {
+    color: var(--q-terra);
+}
+
+.px-quote-ids {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px 16px;
+    font-size: 11px;
+}
+
+.px-quote-ids dt {
+    color: var(--q-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.px-quote-ids dd {
+    margin: 0;
+    font-weight: 700;
+}
+
+/* ---------- Boxes ---------- */
+
+.px-quote-cols {
+    display: grid;
+    grid-template-columns: 1fr 1.45fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.px-quote-box {
+    padding: 13px 15px;
+    border: 1px solid var(--q-line);
+    border-radius: 12px;
+}
+
+.px-quote-box > small {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--q-terra);
+    font-size: 8.5px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.px-quote-fill {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 7px;
+    font-size: 10px;
+    color: var(--q-muted);
+}
+
+.px-quote-fill span {
+    width: 92px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.px-quote-fill i {
+    flex: 1;
+    height: 1px;
+    margin-bottom: 3px;
+    background: var(--q-line);
+}
+
+.px-quote-grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
+    gap: 8px 14px;
+}
+
+.px-quote-grid4 b {
+    display: block;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.px-quote-grid4 span {
+    color: var(--q-muted);
+    font-size: 9.5px;
+}
+
+.px-quote-grade {
+    margin: 10px 0 0;
+    padding-top: 8px;
+    border-top: 1px dashed var(--q-line);
+    color: var(--q-muted);
+    font-size: 9.5px;
+}
+
+.px-quote-grade b {
+    color: var(--q-ink);
+}
+
+/* ---------- Items table ---------- */
+
+.px-quote table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.px-quote-table th {
+    padding: 9px 10px;
+    border-bottom: 1.5px solid var(--q-ink);
+    color: var(--q-muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-align: left;
+}
+
+.px-quote-table td {
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--q-line);
+}
+
+.px-quote-table tr {
+    break-inside: avoid;
+}
+
+.px-quote-table td small {
+    display: block;
+    margin-top: 2px;
+    color: var(--q-muted);
+    font-size: 9.5px;
+}
+
+.px-quote .r {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.px-quote .n {
+    color: var(--q-terra);
+    font-weight: 800;
+}
+
+.px-quote-empty {
+    color: var(--q-muted);
+    text-align: center;
+}
+
+/* ---------- Totals ---------- */
+
+.px-quote-totals {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+    break-inside: avoid;
+}
+
+.px-quote-totals table {
+    width: 310px;
+}
+
+.px-quote-totals td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--q-line);
+    font-size: 11px;
+}
+
+.px-quote-totals tr.g td {
+    padding: 12px 10px;
+    border: 0;
+    color: #fff;
+    background: var(--q-ink);
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.px-quote-totals tr.g td:last-child {
+    color: #f1c9a5;
+}
+
+.px-quote-words {
+    margin: 6px 0 0;
+    color: var(--q-muted);
+    font-size: 10px;
+    font-style: italic;
+    text-align: right;
+}
+
+/* ---------- Terms + signature ---------- */
+
+.px-quote-bottom {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 30px;
+    margin-top: 22px;
+    break-inside: avoid;
+}
+
+.px-quote-terms-title {
+    font-size: 11px;
+}
+
+.px-quote-terms {
+    margin: 6px 0 0;
+    padding-left: 14px;
+    color: var(--q-muted);
+    font-size: 10px;
+}
+
+.px-quote-terms li {
+    margin-bottom: 3px;
+}
+
+.px-quote-sign {
+    align-self: end;
+    text-align: center;
+}
+
+.px-quote-sign-line {
+    margin-top: 44px;
+    padding-top: 6px;
+    border-top: 1px solid var(--q-ink);
+    color: var(--q-muted);
+    font-size: 10px;
+}
+
+/* ---------- Footer strip ---------- */
+
+.px-quote-strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px 17mm;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--q-line);
+    color: var(--q-muted);
+    background: var(--q-cream);
+    font-size: 9.5px;
+}

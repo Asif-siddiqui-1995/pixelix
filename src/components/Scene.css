@@ -1,0 +1,515 @@
+.scene {
+    width: 100%;
+    max-width: 760px;
+    margin: auto;
+    position: relative;
+}
+
+.commerce-scene {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    display: grid;
+    place-items: center;
+    perspective: 1500px;
+    isolation: isolate;
+    overflow: visible;
+}
+
+.ambient-glow {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 113, 45, 0.3),
+        rgba(196, 73, 29, 0.15) 42%,
+        transparent 72%
+    );
+    filter: blur(32px);
+    animation: ambientPulse 5s ease-in-out infinite;
+}
+
+.commerce-svg {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-style: preserve-3d;
+    transform: rotateX(8deg) rotateY(-8deg);
+    animation: hologramFloat 8s ease-in-out infinite;
+}
+
+/* HUD CIRCLES */
+
+.hud-background circle {
+    fill: none;
+    transform-origin: 350px 350px;
+}
+
+.hud-outer {
+    stroke: rgba(255, 163, 87, 0.4);
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 5px #d75c25);
+}
+
+.hud-dotted {
+    stroke: rgba(255, 186, 116, 0.5);
+    stroke-width: 1;
+    stroke-dasharray: 2 5;
+    animation: hudSpin 70s linear infinite;
+}
+
+.hud-inner {
+    stroke: rgba(255, 130, 58, 0.45);
+    stroke-width: 2;
+    stroke-dasharray: 3 8;
+}
+
+.hud-secondary {
+    stroke: rgba(255, 180, 110, 0.5);
+    stroke-width: 1.5;
+    stroke-dasharray: 1 5;
+    animation: hudSpin 50s linear infinite reverse;
+}
+
+.hud-inner-dashed {
+    stroke: rgba(255, 135, 62, 0.6);
+    stroke-width: 2;
+    stroke-dasharray: 8 4 2 4;
+}
+
+.hud-core-ring {
+    stroke: rgba(255, 193, 125, 0.7);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 7px #ff9b4f);
+}
+
+/* ORBIT LINES */
+
+.orbit-line {
+    stroke: #e77935;
+    stroke-width: 1.5;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px #ff873d);
+    transition: opacity 0.3s;
+}
+
+.orbit-line-1 {
+    stroke: #ffb66d;
+    stroke-width: 2.2;
+}
+
+.orbit-line-2 {
+    stroke: #ff8d45;
+    stroke-width: 1.7;
+}
+
+.orbit-line-3 {
+    stroke: #ffce93;
+    stroke-width: 1.2;
+}
+
+.orbit-line-4 {
+    stroke: #e96c2b;
+    stroke-width: 2;
+}
+
+.orbit-line-5 {
+    stroke: #ff9e52;
+    stroke-width: 1.4;
+    opacity: 0.65;
+}
+
+.orbit-line-6 {
+    stroke: #ffc58c;
+    stroke-width: 1.1;
+    opacity: 0.6;
+}
+
+.orbit-highlight {
+    stroke: #fff0cc;
+    filter: drop-shadow(0 0 7px #ff9c50);
+    opacity: 0.9;
+    animation: orbitDash 5s linear infinite;
+}
+
+.orbit-group circle:not(.orbit-particle-glow) {
+    fill: #fff2d4;
+    filter: url(#strongGlow);
+}
+
+.orbit-particle-glow {
+    fill: #ff9d50;
+    opacity: 0.8;
+    filter: url(#orangeGlow);
+}
+
+/* CENTRAL CART */
+
+.cart-outer-glow {
+    fill: #ff742e;
+    opacity: 0.2;
+    filter: url(#strongGlow);
+}
+
+.cart-metal-ring {
+    fill: none;
+    stroke: #ffb76d;
+    stroke-width: 7;
+    filter: drop-shadow(0 0 9px #ff8c3f);
+}
+
+.cart-face {
+    fill: url(#cartFace);
+    stroke: #ff9b4f;
+    stroke-width: 2;
+}
+
+.cart-inner-ring {
+    fill: none;
+    stroke: rgba(255, 201, 140, 0.8);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 5;
+    animation: hudSpin 25s linear infinite;
+}
+
+.cart-arrow {
+    fill: none;
+    stroke: #ffe0a9;
+    stroke-width: 9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 9px #ffbd73);
+}
+
+.cart-symbol {
+    filter: url(#strongGlow);
+}
+
+.cart-wheel {
+    fill: #ffba72;
+    stroke: #fff0d0;
+    stroke-width: 3;
+}
+
+/* ICON NODES */
+
+.icon-node {
+    animation: nodeFloat 5s ease-in-out infinite;
+    animation-delay: var(--node-delay);
+}
+
+.node-shadow {
+    fill: #ff8c3f;
+    opacity: 0.25;
+    filter: url(#strongGlow);
+}
+
+.node-outer {
+    fill: url(#nodeGradient);
+    stroke: #ffad63;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 8px #ff8c3f);
+}
+
+.node-inner {
+    fill: none;
+    stroke: rgba(255, 210, 160, 0.75);
+    stroke-width: 1.5;
+}
+
+.node-highlight {
+    fill: none;
+    stroke: rgba(255, 225, 180, 0.25);
+    stroke-width: 1;
+}
+
+.node-symbol {
+    fill: none;
+    stroke: #fff0d3;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px #ffb66d);
+}
+
+/* FLOATING DATA CARDS */
+
+.floating-data {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 17px;
+    color: #fff1df;
+    border: 1px solid rgba(255, 183, 112, 0.7);
+    border-radius: 13px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(102, 43, 19, 0.95),
+        rgba(32, 15, 9, 0.96)
+    );
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 0 15px rgba(255, 126, 49, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15),
+        0 15px 30px rgba(0, 0, 0, 0.3);
+
+    animation: cardFloat 5s ease-in-out infinite;
+}
+
+.floating-data small,
+.floating-data strong {
+    display: block;
+}
+
+.floating-data small {
+    font-size: 10px;
+    color: #e9b993;
+}
+
+.floating-data strong {
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.orders-data {
+    top: 13%;
+    right: -3%;
+}
+
+.sales-data {
+    bottom: 17%;
+    left: -3%;
+    animation-delay: -2s;
+}
+
+.data-arrow {
+    font-size: 29px;
+    color: #ff9d50;
+}
+
+.data-dot {
+    width: 9px;
+    height: 9px;
+    background: #ff9b50;
+    border-radius: 50%;
+    box-shadow: 0 0 13px #ff9b50;
+}
+
+/* ANIMATIONS */
+
+@keyframes hologramFloat {
+    0%,
+    100% {
+        transform: rotateX(8deg) rotateY(-8deg) translateY(0);
+    }
+    50% {
+        transform: rotateX(5deg) rotateY(-5deg) translateY(-9px);
+    }
+}
+
+@keyframes hudSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbitDash {
+    to {
+        stroke-dashoffset: -1200;
+    }
+}
+
+@keyframes ambientPulse {
+    0%,
+    100% {
+        opacity: 0.65;
+        transform: scale(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes nodeFloat {
+    0%,
+    100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -7px;
+    }
+}
+
+@keyframes cardFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-9px);
+    }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .scene {
+        max-width: 620px;
+    }
+}
+
+@media (max-width: 600px) {
+    .commerce-scene {
+        overflow: hidden;
+    }
+
+    .commerce-svg {
+        width: 108%;
+        max-width: none;
+    }
+
+    .floating-data {
+        padding: 8px 10px;
+        gap: 7px;
+    }
+
+    .floating-data small {
+        font-size: 8px;
+    }
+
+    .floating-data strong {
+        font-size: 11px;
+    }
+
+    .orders-data {
+        right: 0;
+    }
+
+    .sales-data {
+        left: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .commerce-scene *,
+    .commerce-scene *::before,
+    .commerce-scene *::after {
+        animation: none !important;
+    }
+}
+/* =================================
+   CENTRAL BRAIN
+================================= */
+
+.central-brain {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: brainPulse 4s ease-in-out infinite;
+}
+
+.brain-artwork {
+    display: block;
+    opacity: 1;
+
+    filter: brightness(0) saturate(100%) invert(65%) sepia(75%) saturate(650%)
+        hue-rotate(335deg) brightness(110%)
+        drop-shadow(0 0 7px rgba(255, 130, 55, 0.9))
+        drop-shadow(0 0 17px rgba(255, 100, 30, 0.55));
+}
+
+.brain-ring {
+    fill: none;
+    stroke: rgba(255, 183, 109, 0.85);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 7;
+    filter: drop-shadow(0 0 6px #ff8c3f);
+
+    transform-box: fill-box;
+    transform-origin: center;
+
+    animation: brainRotate 22s linear infinite;
+}
+
+/* Subtle pulse without moving the brain */
+
+@keyframes brainPulse {
+    0%,
+    100% {
+        opacity: 0.92;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes brainRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* Brown 3D circle behind brain */
+
+.brain-brown-circle {
+    fill: url(#brainBrownGradient);
+    stroke: #b96835;
+    stroke-width: 3;
+
+    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.55))
+        drop-shadow(0 0 15px rgba(190, 91, 42, 0.35));
+}
+
+.brain-inner-circle {
+    fill: none;
+    stroke: rgba(255, 190, 130, 0.35);
+    stroke-width: 1.5;
+}
+
+
+/* Keep the decorative scene idle until it is close to the viewport. */
+.commerce-scene:not(.is-active) *,
+.commerce-scene:not(.is-active) *::before,
+.commerce-scene:not(.is-active) *::after {
+    animation-play-state: paused !important;
+}
+
+.commerce-scene.is-active .commerce-svg,
+.commerce-scene.is-active .ambient-glow,
+.commerce-scene.is-active .floating-data {
+    animation-play-state: running;
+}
+
+@media (max-width: 600px) {
+    .ambient-glow { filter: blur(22px); opacity: 0.75; }
+    .floating-data {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+    }
+    .orbit-highlight, .orbit-particle-glow {
+        filter: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .commerce-scene *,
+    .commerce-scene *::before,
+    .commerce-scene *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

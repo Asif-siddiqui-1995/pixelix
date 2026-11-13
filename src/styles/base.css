@@ -1,0 +1,859 @@
+:root {
+    --cream: #fbf1e3;
+    --sand: #f1c9a5;
+    --terra: #c4623a;
+    --clay: #8f3f21;
+    --ink: #1d1512;
+    --glass: rgba(29, 21, 18, 0.78);
+    --line: rgba(255, 235, 215, 0.16);
+    --txt: #fbeee0;
+    --nav-bg: rgba(251, 241, 227, 0.6);
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+html {
+    scroll-behavior: smooth;
+    min-height: 100%;
+    background: var(--cream);
+}
+
+body {
+    font-family: "Instrument Sans", system-ui, sans-serif;
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+    /* Warm cream base with soft terracotta glows (no pattern) */
+    background:
+        radial-gradient(
+                circle at 88% 8%,
+                rgba(241, 201, 165, 0.55),
+                transparent 34%
+            )
+            fixed,
+        radial-gradient(
+                circle at 6% 92%,
+                rgba(196, 98, 58, 0.1),
+                transparent 38%
+            )
+            fixed,
+        linear-gradient(160deg, #fff9f1 0%, var(--cream) 55%, #f6e4d0 100%)
+            fixed;
+    background-color: var(--cream);
+}
+
+#root {
+    min-height: 100vh;
+    background: transparent;
+}
+h1,
+h2,
+h3,
+h4 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+h1 {
+    font-size: clamp(3rem, 7.2vw, 6.625rem);
+    font-weight: 800;
+}
+h2 {
+    font-size: clamp(2rem, 4.2vw, 3.75rem);
+    font-weight: 800;
+    margin: 0 auto 1.5rem;
+    max-width: 100%;
+    text-align: center;
+}
+.contact-info {
+    font-size: clamp(2rem, 4vw, 3.625rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    max-width: 20ch;
+    margin-top: 10px;
+}
+.wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px clamp(18px, 4vw, 50px);
+}
+/* section {
+    padding: 3.5rem 0;
+} */
+.muted {
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    opacity: 0.6;
+    text-align: center;
+}
+.founder {
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    opacity: 0.6;
+}
+a {
+    color: inherit;
+}
+:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.nav {
+    max-width: 1400px;
+    background: var(--nav-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 72px;
+    box-shadow: 0 0 0 100vmax var(--nav-bg);
+    clip-path: inset(0 -100vmax);
+}
+
+.nav nav {
+    display: flex;
+    gap: 1.5rem;
+}
+.nav nav a {
+    position: relative;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 0;
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.nav nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--terra);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+.nav nav a:hover {
+    color: var(--terra);
+}
+
+.nav nav a:hover::after {
+    transform: scaleX(1);
+}
+
+.nav nav a.active {
+    color: var(--terra);
+}
+
+.nav nav a.active::after {
+    transform: scaleX(1);
+}
+.logo {
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-decoration: none;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.px {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: var(--terra);
+    box-shadow:
+        14px 0 0 var(--ink),
+        0 14px 0 var(--clay);
+}
+.logo .px {
+    width: 9px;
+    height: 9px;
+    box-shadow:
+        9px 0 0 var(--ink),
+        0 9px 0 var(--clay);
+    margin-right: 9px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: center;
+    /* padding-top: 2rem; */
+    /* padding-bottom: 2rem; */
+}
+.lead {
+    font-size: 1.15rem;
+    margin: 1.2rem 0 1.8rem;
+    max-width: 46ch;
+}
+.row {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 15px 23px;
+
+    border-radius: 9px;
+    border: none;
+
+    color: white;
+    background: linear-gradient(135deg, #c4623a, #8f3f21);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 12px 25px rgba(143, 63, 33, 0.25);
+}
+
+.solid {
+    color: white;
+    background: linear-gradient(135deg, #c4623a, #8f3f21);
+}
+
+.ghost {
+    color: #c4623a;
+    background: var(--sand);
+    border: 1px solid #c4623a;
+}
+
+.ghost:hover {
+    color: white;
+    background: var(--ink);
+    box-shadow: 0 12px 25px rgba(143, 63, 33, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+}
+
+.scene {
+    perspective: 1000px;
+    /* height: 420px; */
+    display: grid;
+    place-items: center;
+}
+.stack {
+    --rx: 8deg;
+    --ry: -14deg;
+    position: relative;
+    width: 270px;
+    height: 300px;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transition: transform 0.15s ease-out;
+}
+.layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    padding: 1.4rem;
+    color: var(--txt);
+    background: var(--glass);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 30px 60px rgba(90, 35, 15, 0.35);
+}
+.layer b {
+    font-family: "Bricolage Grotesque";
+    font-size: 1.4rem;
+}
+.layer span {
+    opacity: 0.75;
+    font-size: 0.95rem;
+}
+.l1 {
+    transform: translateZ(0);
+}
+.l2 {
+    transform: translateZ(70px) translate(30px, -26px);
+    background: rgba(143, 63, 33, 0.82);
+}
+.l3 {
+    transform: translateZ(140px) translate(60px, -52px);
+}
+.p1 {
+    position: absolute;
+    top: -30px;
+    left: -40px;
+    transform: translateZ(190px);
+}
+.p2 {
+    position: absolute;
+    bottom: 10px;
+    right: -70px;
+    transform: translateZ(110px);
+    background: var(--ink);
+}
+.p3 {
+    position: absolute;
+    bottom: -40px;
+    left: 20px;
+    transform: translateZ(60px);
+    width: 10px;
+    height: 10px;
+}
+
+.glass {
+    background: var(--glass);
+    color: var(--txt);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.6rem;
+    backdrop-filter: blur(12px);
+    transition: transform 0.15s ease-out;
+    margin-top: 20px;
+}
+.grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+.grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+}
+.grid4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2.2rem;
+}
+.big h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+}
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+.chips span {
+    padding: 0.2rem 0.7rem;
+    border-radius: 99px;
+    background: rgba(255, 235, 215, 0.12);
+    font-size: 0.85rem;
+}
+.mini {
+    padding: 1.1rem;
+    border-radius: 16px;
+    background: rgba(255, 248, 238, 0.55);
+    border: 1px solid rgba(143, 63, 33, 0.25);
+}
+.mini h4 {
+    margin-bottom: 0.3rem;
+}
+.mini p {
+    font-size: 0.9rem;
+}
+
+.pkg {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.pkg.feat {
+    background: linear-gradient(160deg, #2b1c16, #6d2f18);
+}
+.price {
+    font-family: "Bricolage Grotesque";
+    font-size: 2.6rem;
+    font-weight: 800;
+}
+.pkg ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+}
+.pkg li::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--terra);
+    margin-right: 0.6rem;
+}
+.pkg .btn {
+    background: var(--cream);
+    color: var(--ink);
+    border-color: var(--cream);
+    text-align: center;
+}
+
+.contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+.contact .btn {
+    margin-top: 1rem;
+}
+.form {
+    display: grid;
+    gap: 0.9rem;
+}
+.form label {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+}
+.form input,
+.form select,
+.form textarea {
+    font: inherit;
+    padding: 0.7rem 0.8rem;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(255, 235, 215, 0.08);
+    color: var(--txt);
+}
+.form option {
+    color: #000;
+}
+.ok {
+    color: #9be3a8;
+}
+.err {
+    color: #ffb4a0;
+}
+.foot {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+.logos {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+}
+.logos li {
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    border-radius: 14px;
+    background: rgba(255, 248, 238, 0.6);
+    border: 1px solid rgba(143, 63, 33, 0.25);
+}
+.logos img {
+    display: block;
+    height: 28px;
+    width: auto;
+}
+
+@media (max-width: 860px) {
+    .hero,
+    .contact,
+    .grid2,
+    .grid3 {
+        grid-template-columns: 1fr;
+    }
+    .grid4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .scene {
+        height: 340px;
+    }
+    .nav nav a:not(:last-child) {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+    html {
+        scroll-behavior: auto;
+    }
+}
+.core-list {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    margin-bottom: 48px;
+}
+
+.core-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 48px;
+}
+
+/* Rendering and interaction improvements */
+img,
+svg,
+canvas {
+    max-width: 100%;
+}
+img {
+    height: auto;
+}
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+.btn,
+.core-btn,
+.nav a {
+    touch-action: manipulation;
+}
+section:not(.hero),
+footer.foot {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 760px;
+}
+.glass,
+.layer,
+.feature,
+.mini,
+.core-card {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+@media (max-width: 600px) {
+    .wrap {
+        padding-inline: 18px;
+    }
+    section {
+        padding-block: 2.5rem;
+    }
+    .lead {
+        font-size: 1rem;
+    }
+    .contact-info {
+        margin-top: 0;
+    }
+    .muted {
+        font-size: 1rem;
+    }
+    .founder {
+        font-size: 1rem;
+    }
+    .nav {
+        height: 64px;
+        padding-top: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+/* Contact trust badges: append to your main stylesheet */
+
+.trust-badges {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.75rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.trust-badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    padding: 0.55rem 1rem 0.55rem 0.7rem;
+
+    border-radius: 99px;
+
+    background: rgba(255, 248, 238, 0.6);
+    border: 1px solid rgba(143, 63, 33, 0.25);
+
+    color: var(--ink);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+/* Seal-style check mark in the theme terracotta */
+.trust-check {
+    position: relative;
+
+    flex: none;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: var(--terra);
+    box-shadow: 0 0 0 3px rgba(196, 98, 58, 0.18);
+}
+
+.trust-check::after {
+    content: "";
+
+    position: absolute;
+    left: 7px;
+    top: 4px;
+
+    width: 5px;
+    height: 10px;
+
+    border: solid var(--cream);
+    border-width: 0 2px 2px 0;
+
+    transform: rotate(45deg);
+}
+
+@media (max-width: 600px) {
+    .trust-badges {
+        gap: 0.55rem;
+    }
+
+    .trust-badges li {
+        font-size: 0.85rem;
+    }
+}
+/* Footer stamps: append to your main stylesheet */
+
+.foot-stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    margin-top: 0.9rem;
+}
+
+.foot-stamps img {
+    display: block;
+
+    width: 84px;
+    height: 84px;
+}
+
+@media (max-width: 600px) {
+    .foot-stamps img {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+/* Package */
+.pkg {
+    position: relative;
+    min-height: 550px;
+}
+
+/* Ribbon badge */
+.pkg-tag {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+
+    padding: 10px 30px;
+    min-width: 170px;
+    text-align: center;
+
+    background: linear-gradient(135deg, #ff9b36, #f26a1b, #c9470b);
+
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 7px 18px rgba(190, 73, 12, 0.4);
+
+    animation: ribbonFloat 3s ease-in-out infinite;
+}
+
+/* Ribbon folded ends */
+.pkg-tag::before,
+.pkg-tag::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-top: 13px solid #a83d0b;
+}
+
+.pkg-tag::before {
+    left: 0;
+    border-left: 13px solid transparent;
+}
+
+.pkg-tag::after {
+    right: 0;
+    border-right: 13px solid transparent;
+}
+
+/* Popular package */
+
+.pkg {
+    position: relative;
+    min-height: 550px;
+}
+
+/* Popular ribbon */
+.pkg-tag {
+    position: absolute;
+    top: -12px;
+    right: 22px;
+    z-index: 5;
+
+    width: 105px;
+    height: 105px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(145deg, #ff923d, #f26a1b 60%, #c94b10);
+
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+
+    padding: 0 8px 15px;
+
+    filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.25));
+}
+
+/* Popular package */
+/* Package card */
+.pkg {
+    position: relative;
+    overflow: hidden; /* clips the ribbon to the card corner */
+    gap: 0.9rem;
+    min-height: 0; /* removes the tall fixed height */
+}
+
+/* Keep list items close together, with the button pushed to the bottom */
+.pkg ul {
+    flex: 1;
+    align-content: start; /* stops grid rows from stretching */
+    gap: 0.7rem;
+}
+
+.pkg .price {
+    font-size: 2.3rem;
+    line-height: 1;
+}
+
+/* Corner ribbon */
+.pkg-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.pkg-ribbon-text {
+    position: absolute;
+    top: 32px;
+    right: -52px;
+    width: 200px;
+    padding: 6px 0;
+    background: linear-gradient(135deg, #c4623a, #8f3f21);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.pkg.glass {
+    padding: 1.4rem 1.5rem;
+}
+.trust-badges {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.75rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.7rem;
+}
+
+/* The legacy "h2 { text-align: center; margin: 0 auto }" above was leaking into
+   the themed pages (px-* classes) and pushing section titles away from their
+   labels. :where() keeps this at the same low priority as the old rule, so any
+   page that deliberately centres a heading still does. */
+:where(main#top [class*="px-"]) h2 {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: inherit;
+}
+
+/* "section:not(.hero) { content-visibility: auto }" above also hit every themed
+   page section. Its estimated 760px heights make in-page jumps (#contact-form,
+   #founders…) land in the wrong place and it clips anything that overflows a
+   section, so the themed pages opt out. */
+main#top section[class*="px-"] {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+}

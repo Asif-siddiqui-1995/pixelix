@@ -1,0 +1,1060 @@
+/* ==========================================
+   PIXELIX - HOME PAGE
+   Hero, Why choose, Services and Packages
+   (Packages is also used on /packages)
+========================================== */
+
+.px-home-hero,
+.px-home-section,
+.px-home-dark,
+.px-home-more {
+    --home-cream: var(--cream, #fbf1e3);
+    --home-sand: var(--sand, #f1c9a5);
+    --home-terra: var(--terra, #c4623a);
+    --home-clay: var(--clay, #8f3f21);
+    --home-ink: var(--ink, #1d1512);
+    --home-muted: #806b5e;
+    --home-dark: linear-gradient(145deg, #211713, #302019 55%, #4b281b);
+
+    width: 100%;
+    color: var(--home-ink);
+    font-family: "Instrument Sans", sans-serif;
+}
+
+.px-home-hero *,
+.px-home-section *,
+.px-home-dark *,
+.px-home-more * {
+    box-sizing: border-box;
+}
+
+.px-home-hero a,
+.px-home-section a,
+.px-home-dark a,
+.px-home-more a {
+    text-decoration: none;
+}
+
+/* ---------- Shared ---------- */
+
+.px-home-label {
+    display: inline-block;
+    color: var(--home-terra);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.px-home-heading {
+    max-width: 1250px;
+    margin: 0 auto 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 50px;
+}
+
+.px-home-heading h2 {
+    margin: 15px 0 0;
+    max-width: none;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -3px;
+    text-align: left;
+}
+
+.px-home-heading h2 span {
+    color: var(--home-terra);
+}
+
+.px-home-heading > p {
+    max-width: 400px;
+    margin: 0 0 5px;
+    color: var(--home-muted);
+    font-size: 0.92rem;
+    line-height: 1.8;
+}
+
+.px-home-heading.centered {
+    max-width: 760px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.px-home-heading.centered h2 {
+    text-align: center;
+}
+
+.px-home-heading.centered h2 span {
+    display: block;
+}
+
+.px-home-heading.centered > p {
+    max-width: 560px;
+}
+
+.px-home-btn-primary {
+    min-height: 56px;
+    padding: 0 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 13px;
+    color: #fff8f0;
+    background: linear-gradient(
+        135deg,
+        #d9784c,
+        var(--home-terra) 55%,
+        var(--home-clay)
+    );
+    box-shadow: 0 10px 24px rgba(143, 63, 33, 0.2);
+    font-size: 0.88rem;
+    font-weight: 750;
+    transition: 0.3s ease;
+}
+
+.px-home-btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(143, 63, 33, 0.27);
+}
+
+.px-home-btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--home-ink);
+    font-size: 0.88rem;
+    font-weight: 700;
+    transition: color 0.25s ease;
+}
+
+.px-home-btn-text:hover {
+    color: var(--home-terra);
+}
+
+.px-home-btn-text span {
+    color: var(--home-terra);
+    font-size: 1.2rem;
+}
+
+.px-home-note-line {
+    width: 38px;
+    height: 1px;
+    display: inline-block;
+    background: var(--home-terra);
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+/* Starts at the very top of the page, behind the fixed navbar;
+   the top padding includes the navbar height (see navbar.css). */
+.px-home-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    padding: calc(var(--px-nav-h, 100px) + 20px) clamp(18px, 4vw, 50px) 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #fff9f1 0%,
+        var(--home-cream) 60%,
+        #f8e7d5 100%
+    );
+}
+
+.px-home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.3;
+    pointer-events: none;
+    background-image: radial-gradient(
+        rgba(143, 63, 33, 0.24) 0.8px,
+        transparent 0.8px
+    );
+    background-size: 24px 24px;
+    mask-image: linear-gradient(90deg, transparent, black 70%);
+}
+
+/* base.css loads later and its old ".hero" grid rule would squeeze the
+   whole hero into one column — this higher-specificity rule wins. */
+.px-home-hero.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-template-columns: none;
+    gap: 0;
+}
+
+.px-home-hero-glow {
+    display: none;
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    right: 10%;
+    top: 8%;
+    z-index: -1;
+    border-radius: 50%;
+    background: rgba(196, 98, 58, 0.08);
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+.px-home-hero-inner {
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+}
+
+.px-home-hero-copy {
+    max-width: 680px;
+    animation: pxHomeRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.px-home-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--home-clay);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.px-home-eyebrow-dot {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--home-terra);
+    box-shadow: 0 0 0 5px rgba(196, 98, 58, 0.12);
+}
+
+.px-home-hero-copy h1 {
+    margin: 28px 0 22px;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: clamp(3rem, 7.2vw, 6.625rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: -5px;
+}
+
+.px-home-hero-copy h1 span {
+    display: block;
+    color: var(--home-terra);
+}
+
+.px-home-hero-copy > p {
+    max-width: 46ch;
+    margin: 0;
+    color: var(--home-muted);
+    font-size: 1.15rem;
+    line-height: 1.85;
+}
+
+.px-home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 25px;
+    margin-top: 34px;
+}
+
+.px-home-marketplaces {
+    margin-top: 48px;
+}
+
+.px-home-marketplaces-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--home-muted);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.px-home-marketplaces ul {
+    margin: 16px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+}
+
+.px-home-marketplaces li {
+    height: 50px;
+    padding: 0 16px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(143, 63, 33, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 250, 244, 0.8);
+    box-shadow: 0 6px 16px rgba(54, 32, 20, 0.05);
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.px-home-marketplaces li:hover {
+    transform: translateY(-3px);
+    border-color: var(--home-terra);
+}
+
+.px-home-marketplaces img {
+    width: auto;
+    max-width: 96px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.px-home-hero-visual {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-width: 0;
+    animation: pxHomeRise 0.9s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Warm glow centred behind the hero image */
+.px-home-hero-visual::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: 95%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(241, 201, 165, 0.6) 0%,
+        rgba(196, 98, 58, 0.1) 45%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* Let the hero image use the full column */
+.px-home-hero-visual .scene {
+    max-width: 820px;
+}
+
+/* ==========================================
+   WHY CHOOSE (features)
+========================================== */
+
+.px-home-section {
+    padding: 110px 7%;
+}
+
+.px-home-feature-grid {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.px-home-feature {
+    min-width: 0;
+    padding: 26px;
+    border: 1px solid rgba(143, 63, 33, 0.16);
+    border-radius: 20px;
+    background: rgba(255, 250, 244, 0.72);
+    transition: 0.35s ease;
+}
+
+.px-home-feature:hover {
+    transform: translateY(-8px);
+    border-color: var(--home-terra);
+    background: #fffaf4;
+    box-shadow: 0 20px 38px rgba(143, 63, 33, 0.1);
+}
+
+.px-home-feature-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.px-home-feature-number {
+    color: var(--home-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.px-home-feature-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(196, 98, 58, 0.2);
+    border-radius: 13px;
+    color: var(--home-terra);
+    background: rgba(196, 98, 58, 0.1);
+    transition: transform 0.35s ease;
+}
+
+.px-home-feature:hover .px-home-feature-icon {
+    transform: rotate(-6deg) scale(1.06);
+}
+
+.px-home-feature h3 {
+    margin: 30px 0 10px;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: -0.5px;
+}
+
+.px-home-feature p {
+    margin: 0;
+    color: var(--home-muted);
+    font-size: 0.84rem;
+    line-height: 1.75;
+}
+
+/* ==========================================
+   SERVICES (dark)
+========================================== */
+
+.px-home-dark {
+    position: relative;
+    isolation: isolate;
+    padding: 110px 7%;
+    overflow: hidden;
+    color: var(--home-cream);
+    background:
+        radial-gradient(
+            ellipse at 10% 100%,
+            rgba(196, 98, 58, 0.18),
+            transparent 45%
+        ),
+        linear-gradient(125deg, #1d1512, #2d1d16 65%, #422317);
+}
+
+.px-home-dark-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.13;
+    pointer-events: none;
+    background-image: radial-gradient(var(--home-sand) 1px, transparent 1px);
+    background-size: 23px 23px;
+    mask-image: linear-gradient(90deg, black, transparent);
+}
+
+.px-home-dark-inner {
+    max-width: 1250px;
+    margin: auto;
+}
+
+.px-home-dark .px-home-label {
+    color: var(--home-sand);
+}
+
+.px-home-dark .px-home-heading h2 {
+    color: var(--home-cream);
+}
+
+.px-home-dark .px-home-heading h2 span {
+    color: var(--home-sand);
+}
+
+.px-home-dark .px-home-heading > p {
+    color: rgba(251, 241, 227, 0.65);
+}
+
+.px-home-core-list {
+    display: grid;
+    gap: 22px;
+}
+
+.px-home-core {
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 46px;
+    border: 1px solid rgba(255, 248, 239, 0.4);
+    border-radius: 28px;
+    color: var(--home-ink);
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(255, 250, 244, 0.55),
+            transparent 45%
+        ),
+        linear-gradient(160deg, #f6dcc2 0%, var(--home-sand) 100%);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.25);
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.px-home-core:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.32);
+}
+
+.px-home-core.reverse {
+    grid-template-columns: 0.85fr 1.15fr;
+}
+
+.px-home-core.reverse .px-home-core-text {
+    order: 2;
+}
+
+.px-home-core-text {
+    padding: 18px 10px 18px 22px;
+}
+
+.px-home-core.reverse .px-home-core-text {
+    padding: 18px 22px 18px 10px;
+}
+
+.px-home-core-number {
+    color: var(--home-clay);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.px-home-core h3 {
+    margin: 14px 0 14px;
+    color: var(--home-ink);
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+}
+
+.px-home-core-text > p {
+    margin: 0;
+    color: #4a3a31;
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.px-home-core-text > p.px-home-core-more {
+    margin-top: 12px;
+    color: #6f5648;
+    font-size: 0.84rem;
+}
+
+.px-home-core-tags {
+    margin: 22px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    list-style: none;
+}
+
+.px-home-core-tags li {
+    padding: 7px 11px;
+    border: 1px solid rgba(143, 63, 33, 0.18);
+    border-radius: 999px;
+    color: var(--home-clay);
+    background: rgba(255, 250, 244, 0.6);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.px-home-core-btn {
+    min-height: 50px;
+    margin-top: 28px;
+    padding: 0 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 13px;
+    color: #fff8f0;
+    background: var(--home-ink);
+    box-shadow: 0 10px 22px rgba(29, 21, 18, 0.2);
+    font-size: 0.85rem;
+    font-weight: 750;
+    transition: 0.3s ease;
+}
+
+.px-home-core-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.px-home-core-btn:hover {
+    transform: translateY(-3px);
+    background: var(--home-clay);
+}
+
+.px-home-core-btn:hover svg {
+    transform: translateX(4px);
+}
+
+.px-home-core-media {
+    overflow: hidden;
+    border: 4px solid rgba(255, 250, 244, 0.7);
+    border-radius: 20px;
+    background: #fff8ef;
+}
+
+.px-home-core-media img {
+    width: 100%;
+    height: 100%;
+    max-height: 440px;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.px-home-core:hover .px-home-core-media img {
+    transform: scale(1.04);
+}
+
+/* Extra services: light band holding the original .grid4 / .mini cards */
+.px-home-more {
+    padding: 70px 7% 30px;
+}
+
+.px-home-more > .grid4 {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.px-home-more-heading {
+    max-width: 1250px;
+    margin: 0 auto 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.px-home-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--home-clay);
+    font-size: 0.82rem;
+    font-weight: 750;
+    transition: color 0.25s ease;
+}
+
+.px-home-more-link:hover {
+    color: var(--home-terra);
+}
+
+.px-home-more-link svg {
+    transition: transform 0.3s ease;
+}
+
+.px-home-more-link:hover svg {
+    transform: rotate(45deg);
+}
+
+/* ==========================================
+   PACKAGES
+========================================== */
+
+.px-home-packages {
+    background: radial-gradient(
+        circle at 50% 0%,
+        rgba(196, 98, 58, 0.09),
+        transparent 40%
+    );
+}
+
+.px-home-pkg-grid {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 25px;
+}
+
+/* TiltCard adds the global ".glass" class — override it here */
+.px-home-pkg.glass {
+    position: relative;
+    min-width: 0;
+    margin: 0;
+    padding: 38px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(143, 63, 33, 0.2);
+    border-radius: 26px;
+    color: var(--home-ink);
+    background: rgba(255, 249, 241, 0.9);
+    box-shadow: 0 12px 35px rgba(54, 32, 20, 0.07);
+    backdrop-filter: none;
+    transition:
+        transform 0.15s ease-out,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.px-home-pkg.glass:hover {
+    border-color: var(--home-terra);
+    box-shadow: 0 22px 48px rgba(54, 32, 20, 0.13);
+}
+
+.px-home-pkg.glass.is-popular {
+    border: 1px solid rgba(241, 201, 165, 0.27);
+    color: var(--home-cream);
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(196, 98, 58, 0.35),
+            transparent 45%
+        ),
+        var(--home-dark);
+    box-shadow: 0 25px 55px rgba(45, 27, 19, 0.28);
+}
+
+.px-home-pkg-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    padding: 8px 18px;
+    border-radius: 999px;
+    color: #fff8ef;
+    background: linear-gradient(135deg, #d9784c, var(--home-terra));
+    box-shadow: 0 8px 18px rgba(143, 63, 33, 0.3);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+.px-home-pkg-number {
+    color: var(--home-muted);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.is-popular .px-home-pkg-number {
+    color: #d8a985;
+}
+
+.px-home-pkg h3 {
+    margin: 12px 0 0;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: -0.7px;
+}
+
+.px-home-pkg-price {
+    margin: 20px 0 24px;
+    padding: 18px 0;
+    border-top: 1px solid rgba(143, 63, 33, 0.16);
+    border-bottom: 1px solid rgba(143, 63, 33, 0.16);
+}
+
+.is-popular .px-home-pkg-price {
+    border-color: rgba(241, 201, 165, 0.18);
+}
+
+.px-home-pkg-price strong {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: clamp(2.2rem, 3.4vw, 2.9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1.5px;
+}
+
+.is-popular .px-home-pkg-price strong {
+    color: #e6a274;
+}
+
+.px-home-pkg ul {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    align-content: start;
+    gap: 14px;
+    list-style: none;
+}
+
+.px-home-pkg li {
+    display: grid;
+    grid-template-columns: 21px minmax(0, 1fr);
+    gap: 11px;
+    align-items: start;
+    color: #50443d;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.is-popular li {
+    color: rgba(251, 241, 227, 0.82);
+}
+
+.px-home-pkg-check {
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--home-terra);
+    border-radius: 50%;
+    color: var(--home-clay);
+}
+
+.is-popular .px-home-pkg-check {
+    border-color: transparent;
+    color: #fff8ef;
+    background: var(--home-terra);
+}
+
+.px-home-pkg-button {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(143, 63, 33, 0.35);
+    border-radius: 15px;
+    color: var(--home-ink);
+    font-size: 0.88rem;
+    font-weight: 750;
+    transition: 0.3s ease;
+}
+
+.px-home-pkg-button svg {
+    transition: transform 0.3s ease;
+}
+
+.px-home-pkg-button:hover {
+    border-color: var(--home-clay);
+    color: #fff8ef;
+    background: var(--home-clay);
+}
+
+.px-home-pkg-button:hover svg {
+    transform: translateX(4px);
+}
+
+.is-popular .px-home-pkg-button {
+    border-color: transparent;
+    color: #fff8f0;
+    background: linear-gradient(
+        135deg,
+        #d9784c,
+        var(--home-terra) 55%,
+        var(--home-clay)
+    );
+}
+
+.is-popular .px-home-pkg-button:hover {
+    background: var(--home-cream);
+    color: var(--home-ink);
+}
+
+/* ==========================================
+   KEYFRAMES
+========================================== */
+
+@keyframes pxHomeRise {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1050px) {
+    .px-home-hero-inner {
+        gap: 1.5rem;
+    }
+
+    .px-home-feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .px-home-pkg-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 860px) {
+    .px-home-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .px-home-hero-copy {
+        max-width: 700px;
+    }
+
+    .px-home-hero-visual {
+        width: min(100%, 640px);
+        justify-self: center;
+    }
+
+    .px-home-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .px-home-heading.centered {
+        align-items: center;
+    }
+
+    .px-home-core,
+    .px-home-core.reverse {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .px-home-core.reverse .px-home-core-text {
+        order: 0;
+    }
+
+    .px-home-core-text,
+    .px-home-core.reverse .px-home-core-text {
+        padding: 10px 6px 6px;
+    }
+
+    .px-home-core-media img {
+        max-height: 340px;
+    }
+}
+
+@media (max-width: 680px) {
+    .px-home-pkg-grid {
+        grid-template-columns: 1fr;
+        gap: 34px;
+    }
+}
+
+@media (max-width: 550px) {
+    .px-home-hero {
+        min-height: auto;
+        padding: calc(var(--px-nav-h, 64px) + 16px) 18px 40px;
+    }
+
+    .px-home-eyebrow {
+        font-size: 0.56rem;
+        letter-spacing: 1px;
+    }
+
+    .px-home-hero-copy h1 {
+        margin-top: 22px;
+        font-size: clamp(3rem, 14vw, 4.2rem);
+        letter-spacing: -2.5px;
+    }
+
+    .px-home-hero-copy > p {
+        font-size: 0.9rem;
+    }
+
+    .px-home-hero-actions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .px-home-marketplaces {
+        margin-top: 34px;
+    }
+
+    .px-home-marketplaces li {
+        height: 44px;
+        padding: 0 12px;
+    }
+
+    .px-home-marketplaces img {
+        max-width: 78px;
+        height: 20px;
+    }
+
+    .px-home-section,
+    .px-home-dark {
+        padding: 75px 20px;
+    }
+
+    .px-home-more {
+        padding: 55px 20px 20px;
+    }
+
+    .px-home-heading {
+        margin-bottom: 32px;
+    }
+
+    .px-home-heading h2 {
+        font-size: 2.6rem;
+        letter-spacing: -2px;
+    }
+
+    .px-home-heading > p {
+        font-size: 0.84rem;
+    }
+
+    .px-home-feature-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .px-home-feature {
+        padding: 22px;
+    }
+
+    .px-home-feature h3 {
+        margin-top: 22px;
+    }
+
+    .px-home-core {
+        padding: 14px;
+        border-radius: 22px;
+    }
+
+    .px-home-core h3 {
+        font-size: 2rem;
+        letter-spacing: -1px;
+    }
+
+    .px-home-pkg.glass {
+        padding: 34px 22px 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .px-home-hero *,
+    .px-home-section *,
+    .px-home-dark * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
