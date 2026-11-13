@@ -697,7 +697,12 @@ export default function ConstructionCostCalculator({
                         onClick={() => setCategory("construction")}
                     >
                         <Building2 size={17} />
-                        <span>Real Estate Construction &amp; Bricks</span>
+                        <span className="px-tab-label-full">
+                            Real Estate Construction &amp; Bricks
+                        </span>
+                        <span className="px-tab-label-short" aria-hidden="true">
+                            Construction &amp; Bricks
+                        </span>
                     </button>
                     <button
                         type="button"
@@ -707,7 +712,12 @@ export default function ConstructionCostCalculator({
                         onClick={() => setCategory("tech")}
                     >
                         <Laptop size={17} />
-                        <span>Tech, Software &amp; 3D Web</span>
+                        <span className="px-tab-label-full">
+                            Tech, Software &amp; 3D Web
+                        </span>
+                        <span className="px-tab-label-short" aria-hidden="true">
+                            Tech, Software &amp; 3D
+                        </span>
                     </button>
                 </div>
 

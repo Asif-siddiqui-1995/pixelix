@@ -545,6 +545,20 @@
     flex-shrink: 0;
 }
 
+/* Tab labels: explicit block + line-height so wrapped lines can never
+   collide, whatever font or text-size setting the phone uses */
+.px-calculator-tabs button span {
+    display: block;
+    min-width: 0;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+.px-calculator-tabs .px-tab-label-short {
+    display: none;
+}
+
 /* ==========================================
    TECHNOLOGY MODE NOTE
 ========================================== */
@@ -1755,6 +1769,15 @@
         grid-template-columns: 1fr;
     }
 
+    /* Stacked layout: the parameters card no longer stretches to the
+       results column, so its sections must size to their content.
+       ("flex: 1 1 0; min-height: 0" collapsed them to 0px and made the
+       grade cards, plot area and floors overlap each other.) */
+    .px-calc-inputs > * {
+        flex: 0 0 auto;
+        min-height: auto;
+    }
+
     .px-calc-results {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1788,8 +1811,23 @@
         flex-direction: column;
         gap: 5px;
         font-size: 0.7rem;
-        line-height: 1.25;
+        line-height: 1.3;
         text-align: center;
+    }
+
+    /* Narrow screens: shorter labels that fit on one line. The full label
+       stays in the DOM (visually hidden) for screen readers. */
+    .px-calculator-tabs .px-tab-label-full {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .px-calculator-tabs .px-tab-label-short {
+        display: block;
     }
 
     .px-calc-inputs {
