@@ -459,8 +459,14 @@ a {
 .foot {
     padding-top: 2rem;
     padding-bottom: 2rem;
-    opacity: 0.7;
+    /* Softened text instead of opacity on the whole footer, which also
+       faded the brand logo badge */
+    color: rgba(29, 21, 18, 0.7);
     font-size: 0.9rem;
+}
+
+.foot .foot-stamps img {
+    opacity: 0.7;
 }
 .logos {
     list-style: none;

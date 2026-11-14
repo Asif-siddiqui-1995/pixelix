@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import BrandLogo from "./BrandLogo.jsx";
 import {founder, coreServices, moreServices} from "../data/site.js";
 import pricingStamp from "../assets/badges/stamp-transparent-pricing.svg";
 import whatsappStamp from "../assets/badges/stamp-whatsapp-support.svg";
@@ -15,9 +16,8 @@ export default function Footer() {
     return (
         <footer className="wrap foot">
             <div>
-                <Link className="logo" to="/">
-                    <i className="px" />
-                    Pixilix
+                <Link className="logo" to="/" aria-label="Pixelix home">
+                    <BrandLogo size="footer" />
                 </Link>
                 <p>
                     E-commerce operations and performance ads for growing

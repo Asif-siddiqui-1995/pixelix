@@ -127,13 +127,6 @@ const testimonials = [
     },
 ];
 
-/*
- * Marquee: two rows of review cards gliding in opposite directions.
- * Each row's cards are rendered twice so the loop is seamless (the copy is
- * hidden from screen readers). Rows pause on hover/focus, and the pause
- * button stops all motion (needed for content that moves on its own).
- * With "reduce motion" on, rows stand still and can be swiped instead.
- */
 function Stars({rating}) {
     return (
         <span

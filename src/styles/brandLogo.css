@@ -1,0 +1,142 @@
+/* ==========================================
+   PIXELIX BRAND LOGO (transparent artwork + animation)
+========================================== */
+
+.px-brand {
+    --brand-h: 58px;
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--brand-h);
+    /* transparent artwork with dark lettering: sits directly on the page */
+    overflow: hidden;
+}
+
+.px-brand--compact {
+    --brand-h: 46px;
+}
+
+.px-brand--footer {
+    --brand-h: 92px;
+}
+
+.px-brand-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    width: auto;
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Warm glow inside the badge: fades in on load, then gently breathes */
+.px-brand-glow {
+    position: absolute;
+    inset: 15% 20%;
+    z-index: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 170, 60, 0.28), rgba(196, 98, 58, 0.08) 55%, transparent 75%);
+    filter: blur(8px);
+    opacity: 0.55;
+    animation:
+        pxBrandGlowIn 1.2s ease-out backwards,
+        pxBrandBreathe 4.5s 1.2s ease-in-out infinite;
+}
+
+/* Clip the sweep to the logo's opaque pixels */
+.px-brand-sheen-clip {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    -webkit-mask: var(--brand-src) center / contain no-repeat;
+    mask: var(--brand-src) center / contain no-repeat;
+}
+
+/* Light sweep across the logo */
+.px-brand-sheen {
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: 0;
+    z-index: 2;
+    width: 45%;
+    pointer-events: none;
+    background: linear-gradient(
+        100deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 244, 225, 0.55) 50%,
+        rgba(255, 255, 255, 0) 70%,
+        transparent 100%
+    );
+    mix-blend-mode: screen;
+    transform: translateX(-130%) skewX(-12deg);
+    animation: pxBrandSheen 5.5s 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Hover (when the logo sits inside a link) */
+a:hover > .px-brand .px-brand-img,
+.px-brand:hover .px-brand-img {
+    transform: translateY(-1px) scale(1.05);
+}
+
+a:hover > .px-brand .px-brand-sheen,
+.px-brand:hover .px-brand-sheen {
+    animation: pxBrandSheenOnce 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pxBrandGlowIn {
+    from {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+}
+
+@keyframes pxBrandBreathe {
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.12);
+    }
+}
+
+/* Sweep takes the first ~25% of the cycle, then rests */
+@keyframes pxBrandSheen {
+    0% {
+        transform: translateX(-130%) skewX(-12deg);
+    }
+
+    25%,
+    100% {
+        transform: translateX(330%) skewX(-12deg);
+    }
+}
+
+@keyframes pxBrandSheenOnce {
+    from {
+        transform: translateX(-130%) skewX(-12deg);
+    }
+
+    to {
+        transform: translateX(330%) skewX(-12deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .px-brand-glow,
+    .px-brand-sheen {
+        animation: none;
+    }
+
+    .px-brand-sheen {
+        display: none;
+    }
+}

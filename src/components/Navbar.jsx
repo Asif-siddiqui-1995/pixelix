@@ -14,6 +14,7 @@ import {
     Grip,
     X,
 } from "lucide-react";
+import BrandLogo from "./BrandLogo.jsx";
 import "../styles/navbar.css";
 
 // Every item opens its own page (route).
@@ -161,10 +162,9 @@ export default function Navbar() {
                     <Link
                         className="px-nav-logo"
                         to="/"
-                        aria-label="Pixilix home"
+                        aria-label="Pixelix home"
                     >
-                        <i className="px-nav-mark" aria-hidden="true" />
-                        Pixilix
+                        <BrandLogo size="nav" />
                     </Link>
 
                     <nav className="px-nav-links" aria-label="Main">
@@ -197,9 +197,8 @@ export default function Navbar() {
 
             {/* ---------- MOBILE: top logo bar ---------- */}
             <div className="px-nav-mobile-top">
-                <Link className="px-nav-logo" to="/" aria-label="Pixilix home">
-                    <i className="px-nav-mark" aria-hidden="true" />
-                    Pixilix
+                <Link className="px-nav-logo" to="/" aria-label="Pixelix home">
+                    <BrandLogo size="compact" />
                 </Link>
                 <Link to="/contact" className="px-nav-cta small">
                     Let's talk <ArrowUpRight size={15} />
