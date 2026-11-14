@@ -820,3 +820,187 @@
         height: 400px;
     }
 }
+
+/* =================================================================
+   10-CLIENT LAYOUT (overrides above)
+   Avatars are placed on an ellipse from Testimonials.jsx (inline
+   left/top); the centre now also shows the service and the client's
+   original request.
+================================================================= */
+
+.testimonial-orbit {
+    --orbit-rx: 44%;
+    --orbit-ry: 44%;
+    height: 600px;
+}
+
+.orbit-line-one {
+    width: 88%;
+    height: 82%;
+    top: 9%;
+}
+
+.orbit-line-two {
+    width: 72%;
+    height: 66%;
+    top: 17%;
+}
+
+.testimonial-avatar {
+    width: auto;
+    height: auto;
+    left: calc(50% + var(--ox, 0) * var(--orbit-rx));
+    top: calc(50% + var(--oy, 0) * var(--orbit-ry));
+}
+
+.avatar-image-wrapper {
+    width: 86px;
+    height: 86px;
+}
+
+.testimonial-avatar.is-active .avatar-image-wrapper {
+    width: 112px;
+    height: 112px;
+}
+
+.testimonial-center {
+    top: 50%;
+    width: min(470px, 50%);
+}
+
+.testimonial-service {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 6px 13px;
+    border: 1px solid rgba(196, 98, 58, 0.28);
+    border-radius: 999px;
+    color: #8f3f21;
+    background: rgba(196, 98, 58, 0.07);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.testimonial-quote {
+    margin: 6px auto 16px;
+}
+
+.testimonial-query {
+    margin: 18px auto 0;
+    padding: 12px 16px;
+    max-width: 440px;
+    border-radius: 14px;
+    border: 1px dashed rgba(143, 63, 33, 0.22);
+    background: rgba(255, 255, 255, 0.45);
+    text-align: left;
+}
+
+.testimonial-query small {
+    display: block;
+    color: #c4623a;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.testimonial-query p {
+    margin: 5px 0 0;
+    color: #6b574c;
+    font-size: 12.5px;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.testimonial-navigation {
+    margin-top: 20px;
+}
+
+/* The hint sits under the orbit instead of overlapping it */
+.testimonial-instruction {
+    position: static;
+    justify-content: center;
+    margin-top: 10px;
+    transform: none;
+}
+
+@media (max-width: 900px) {
+    .testimonial-orbit {
+        --orbit-rx: 46%;
+        height: 640px;
+    }
+
+    .testimonial-center {
+        width: min(400px, 50%);
+    }
+
+    .avatar-image-wrapper {
+        width: 64px;
+        height: 64px;
+    }
+
+    .testimonial-avatar.is-active .avatar-image-wrapper {
+        width: 84px;
+        height: 84px;
+    }
+}
+
+/* Phones: a wrapped row of faces above the testimonial, no orbit */
+@media (max-width: 600px) {
+    .testimonial-orbit {
+        height: auto;
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px 8px;
+    }
+
+    .orbit-line {
+        display: none;
+    }
+
+    .testimonial-avatar,
+    .testimonial-avatar:hover {
+        position: relative;
+        left: auto !important;
+        top: auto !important;
+        width: auto;
+        height: auto;
+        transform: none;
+    }
+
+    .avatar-image-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+
+    .testimonial-avatar.is-active .avatar-image-wrapper {
+        width: 58px;
+        height: 58px;
+        transform: none;
+    }
+
+    .testimonial-center {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        margin-top: 22px;
+        transform: none;
+    }
+
+    .testimonial-quote {
+        font-size: 14px;
+    }
+
+    .testimonial-query p {
+        font-size: 12px;
+    }
+
+    .testimonial-instruction {
+        margin-top: 18px;
+        white-space: normal;
+        text-align: center;
+    }
+}

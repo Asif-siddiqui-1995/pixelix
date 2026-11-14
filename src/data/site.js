@@ -7,6 +7,8 @@ export const founder = {
     phone: "+917056063863",
     display: "+91 70560 63863",
     email: "pixelix7@gmail.com",
+    address:
+        "Dixit Tower, SCF 33, Opposite Jat Dharamshala, Urban Estate, HUDA, Jind, Haryana 126102",
 };
 
 export const marketplaces = ["Amazon", "Flipkart", "Meesho", "Shopify"];

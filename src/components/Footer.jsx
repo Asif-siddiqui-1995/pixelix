@@ -70,6 +70,9 @@ export default function Footer() {
                     <li>
                         <a href={`mailto:${founder.email}`}>{founder.email}</a>
                     </li>
+                    <li>
+                        <a href={`${founder.address}`}>{founder.address}</a>
+                    </li>
                 </ul>
             </div>
         </footer>

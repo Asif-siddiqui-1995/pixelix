@@ -1,12 +1,8 @@
 import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
 import {FaWhatsapp} from "react-icons/fa";
 import {X, ArrowUpRight} from "lucide-react";
 import {whatsappLink} from "../utils/format.js";
 import "../styles/floatingwhatspp.css";
-
-const GREETING_DELAY = 4000;
-const DISMISS_KEY = "px-wa-dismissed";
 
 const quickReplies = [
     {
@@ -28,43 +24,9 @@ const quickReplies = [
     },
 ];
 
-function readDismissed() {
-    try {
-        return sessionStorage.getItem(DISMISS_KEY) === "1";
-    } catch {
-        return false;
-    }
-}
-
-function saveDismissed() {
-    try {
-        sessionStorage.setItem(DISMISS_KEY, "1");
-    } catch {
-        /* storage unavailable: the greeting just shows again next visit */
-    }
-}
-
 export default function FloatingWhatsApp() {
     const [open, setOpen] = useState(false);
     const [typing, setTyping] = useState(true);
-    const [unread, setUnread] = useState(false);
-
-    const {pathname} = useLocation();
-
-    // Pop the greeting once per session, after a short delay
-    // (not on /contact, where the page itself is the inquiry form)
-    useEffect(() => {
-        if (readDismissed() || pathname === "/contact") return undefined;
-
-        const timer = setTimeout(() => {
-            // On phones the panel would cover the page, so only show a badge
-            const isPhone = window.matchMedia("(max-width: 550px)").matches;
-            if (isPhone) setUnread(true);
-            else setOpen(true);
-        }, GREETING_DELAY);
-
-        return () => clearTimeout(timer);
-    }, [pathname]);
 
     // Show "typing…" briefly each time the panel opens
     useEffect(() => {
@@ -84,19 +46,13 @@ export default function FloatingWhatsApp() {
         return () => window.removeEventListener("keydown", onKey);
     }, [open]);
 
+    // The chat card only ever opens when the button is clicked
     function closePanel() {
         setOpen(false);
-        setUnread(false);
-        saveDismissed();
     }
 
     function togglePanel() {
-        if (open) {
-            closePanel();
-        } else {
-            setOpen(true);
-            setUnread(false);
-        }
+        setOpen((value) => !value);
     }
 
     return (
@@ -187,7 +143,6 @@ export default function FloatingWhatsApp() {
                 }
             >
                 {open ? <X size={28} /> : <FaWhatsapp size={40} />}
-                {unread && !open && <span className="px-wa-badge">1</span>}
             </button>
         </div>
     );

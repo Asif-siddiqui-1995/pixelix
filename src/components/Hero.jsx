@@ -4,10 +4,10 @@ import Scene from "./Scene.jsx";
 import {whatsappLink} from "../utils/format.js";
 import "../styles/home.css";
 
-import amazon from "../assets/logos/amazon.webp";
-import flipkart from "../assets/logos/flipkart.webp";
-import meesho from "../assets/logos/meesho.webp";
-import shopify from "../assets/logos/shopify.webp";
+import amazon from "../assets/logos/amazon.png";
+import flipkart from "../assets/logos/flipkart.png";
+import meesho from "../assets/logos/meesho.png";
+import shopify from "../assets/logos/shopify.png";
 
 // width and height are the real image sizes, so the page does not jump while loading
 const marketplaces = [
@@ -36,8 +36,8 @@ export default function Hero() {
                     </h1>
 
                     <p>
-                        Catalogs and A+ content for Amazon, Flipkart, Meesho
-                        and Shopify, plus Meta Lead Ads and Google Search PPC.
+                        Catalogs and A+ content for Amazon, Flipkart, Meesho and
+                        Shopify, plus Meta Lead Ads and Google Search PPC.
                         Straightforward work at fair prices, made for growing
                         sellers.
                     </p>
@@ -63,7 +63,7 @@ export default function Hero() {
                     <div className="px-home-marketplaces">
                         <span className="px-home-marketplaces-label">
                             <span className="px-home-note-line" />
-                            WE SELL ON
+                            WE HANDLE YOUR BUSINSS ON
                         </span>
                         <ul aria-label="Marketplaces we work with">
                             {marketplaces.map((m) => (
